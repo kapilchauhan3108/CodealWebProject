@@ -4,6 +4,11 @@ const app = express();
 
 const port = 8000;// Website run on port no 80..
 
+
+// Use Express Router 
+app.use('/' , require('./routes/index'));
+
+
 app.listen(port , function(error){
 
     if(error){
