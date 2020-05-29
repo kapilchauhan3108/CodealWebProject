@@ -6,7 +6,7 @@ const port = 8000;// Website run on port no 80..
 
 
 // Use Express Router 
-app.use('/' , require('./routes/index'));
+app.use('/' , require('./routes/index')); // for Any request in Url router /index will be called
 
 
 app.listen(port , function(error){
