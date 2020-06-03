@@ -1,42 +1,74 @@
 const express = require('express');
+const cookieParser = require('cookie-parser');
 const app = express();
-const port = 8000;// Website run on port no 80..
-
-const cookieParser = require('cookie-parser'); // Installed Package with npm install cookie-parser
-
+const port = 8000;
+const expressLayouts = require('express-ejs-layouts');
 const db = require('./config/mongoose');
+// used for session cookie
+const session = require('express-session');
+const passport = require('passport');
+const passportLocal = require('./config/passport-local-strategy');
+
+// Mongo Store is used to save the session cookie in DB..
+const mongoStore = require('connect-mongo')(session);
 
 app.use(express.urlencoded());
+
 app.use(cookieParser());
 
-// install ejs layput with "npm install express-ejs-layouts" To Avoid creating a new page everttime just using existing templates and binding them
-const expressLayout = require('express-ejs-layouts');
+app.use(express.static('./assets'));
 
-app.use(expressLayout);
-app.use('/' , require('./routes'));
-
-// Extract style and scripts from sub page into head section of Layout
-app.set('layout extractStyles' , true);
-app.set('layout extractScripts' , true);
-
-// setup static file ..
-app.use(express.static('./assets') );
-
-// Set up the View 
-app.set('view engine' , 'ejs');
-app.set('views' , './views');
-
-
-// Use Express Router . Routing all the functionalites to Index.js of Router folder ..
-app.use('/' , require('./routes/index')); // for Any request in Url router /index will be called [./ means go back one step in folder structure]
+app.use(expressLayouts);
+// extract style and scripts from sub pages into the layout
+app.set('layout extractStyles', true);
+app.set('layout extractScripts', true);
 
 
 
-app.listen(port , function(error){
 
-    if(error){
-        console.log(`Error while connecting to port no ${port} : ${error}`);// Called Interpolation
+// set up the view engine
+app.set('view engine', 'ejs');
+app.set('views', './views');
+
+
+app.use(session({
+    name: 'codeial',
+    // TODO change the secret before deployment in production mode
+    secret: 'blahsomething',
+    saveUninitialized: false,
+    resave: false,
+    cookie: {
+        maxAge: (1000 * 60 * 100)
+    },
+    store : new mongoStore({
+            mongooseConnection : db , // db is exported from mongoose file
+            autoRemove : 'disabled'
+    },
+    function(error){
+        if(error){
+            console.log('Error in mongo COnnect' , error); 
+        }
+        
+
+    }
+    )
+}));
+
+
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+
+app.use(passport.setAuthenticatedUser);
+// use express router
+app.use('/', require('./routes'));
+
+
+app.listen(port, function(err){
+    if (err){
+        console.log(`Error in running the server: ${err}`);
     }
 
-    console.log(`Server is running on ${port}`);
+    console.log(`Server is running on port: ${port}`);
 });
