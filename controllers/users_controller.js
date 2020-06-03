@@ -99,7 +99,5 @@ module.exports.createSession = function(req , res){
 
 // Create Session for User ...for Passport Authentication ..
 
-module.exports.createSession = function(request , response){
 
-return response.redirect('/');
-}
+module.exports = router ;
