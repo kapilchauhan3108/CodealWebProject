@@ -1,14 +1,5 @@
 const User = require('../models/user'); // Takes the user schema created for DB 
 
-<<<<<<< HEAD
-module.exports.profile = function(request , response){
-     User.findById(request.cookies.user_id , function(error , user){
-
-        if(error){
-        console.log('error : ' ,  error);
-        }
-
-=======
 // This is used for Manual Authentication ....
 /*
 module.exports.profile = function(request , response){
@@ -16,43 +7,16 @@ module.exports.profile = function(request , response){
         if(error){
         console.log('error : ' ,  error);
         }
->>>>>>> Passport-Authentication
         if(user){
             return response.render('user_profile' , {
                 title : 'User Profile Page',
                 email : user.email,
                 userName : user.name
             });
-<<<<<<< HEAD
-
-=======
->>>>>>> Passport-Authentication
         }else{
             response.redirect('/users/log-in');
         }
      });
-<<<<<<< HEAD
-}  
-
-//User Sign Out 
-
-module.exports.signout = function(req, res){
-    console.log('sign Out Called');
-    req.cookies(user_id, '');
-    return res.redirect('users/log-in');
-}
-
-
-// Render Sig up Page
-module.exports.signup = function(req , res){
-    return res.render('user_signup' , {
-        title : 'Sign Up'
-    });
-}
-// Render LOgin Page 
-
-module.exports.login = function(req , res){
-=======
 } 
 */
 
@@ -91,7 +55,6 @@ module.exports.login = function(req , res){
          name : res.locals.user.name
      })
    }
->>>>>>> Passport-Authentication
     return res.render('user_login' , {
         title : 'User Login'
     });
@@ -115,48 +78,6 @@ module.exports.create = function(req , res){
              console.log('Error while sign in '); return ;
           }
           return res.redirect('/users/log-in');
-<<<<<<< HEAD
-
-        } );
-      }else{
-        return res.redirect('back'); 
-      }
-   });
-}
-
-// get the sign up data . [This is used to Manual Authentication]
-/*
-module.exports.createSession = function(req , res){
-  //  Find the User 
-     User.findOne( {email : req.body.email} , function(error , user){
-
-        if(error){
-          console.log('Error while LOgin ' , error);
-        }
-
-        if(user){
-           // Check for the User Password
-           if(user.password != req.body.password){
-              return res.redirect('back');
-              
-           }else{
-              res.cookie('user_id' , user.id); 
-              
-              
-              return res.redirect('/users/profile');
-           }
-        }else{
-           return  res.redirect('back');
-        }
-     });  
-}
-*/
-
-// Create Session for User ...for Passport Authentication ..
-
-
-module.exports = router ;
-=======
 
         } );
       }else{
@@ -209,4 +130,3 @@ module.exports.signout = function(req, res){
 
     return res.redirect('/');
 }    
->>>>>>> Passport-Authentication

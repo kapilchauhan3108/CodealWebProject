@@ -1,0 +1,19 @@
+.flex-container{
+    display:  flex;
+    width : 100%;
+    background-color: cyan ;
+    align-content:  stretch;
+}
+
+li{
+    display : inline;
+}
+div{
+
+    h1{
+        text-transform: capitalize;
+    }
+    a{
+        text-decoration:  none;
+    }
+}

@@ -41,11 +41,7 @@ const postController = require('../controllers/post_controller');
 router.get('/post' , postController.post );
 
 
-<<<<<<< HEAD
-module.exports = router ;
-=======
 
 
 
 module.exports = router ;
->>>>>>> Passport-Authentication
